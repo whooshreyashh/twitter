@@ -14,10 +14,14 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import DoneIcon from '@mui/icons-material/Done';
 import { Avatar, Button, IconButton, ListItemIcon, Menu, MenuItem, Divider, handleLogout } from '@mui/material';
 import CustomLink from './CustomLink';
+import useLoggedInUser from '../../hooks/useLoggedInUser';
 
 const Sidebar = ({handleLogout, user }) => {
 const [anchorE1, setAnchorE1]=useState(null);
     const openMenu = Boolean(anchorE1); 
+    const [loggedInUser] = useLoggedInUser();
+
+    const userProfilePic = loggedInUser[0]?.profileImage?loggedInUser[0]?.profileImage: "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
 
     const handleClick = e =>{
         setAnchorE1(e.currentTarget);
@@ -25,6 +29,8 @@ const [anchorE1, setAnchorE1]=useState(null);
     const handleClose = () =>{
         setAnchorE1(null);
     }
+
+    const result = user[0]?.email?.split('@')[0];
 
     return (
         <div className='sidebar'>
@@ -59,10 +65,14 @@ const [anchorE1, setAnchorE1]=useState(null);
             </Button>
 
             <div className='Profile_info'>
-                <Avatar src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png' />
+                <Avatar src={userProfilePic} />
                 <div className='user_info'>
-                    <h4>Shreyash Joshi</h4>
-                    <h5>@batmanshinchan</h5>
+                    <h4>
+                        {
+                            loggedInUser[0]?.name?loggedInUser[0]?.name: user && user[0]?.displayName
+                        }
+                    </h4>
+                    <h5>@{result}</h5>
                 </div>
                 <IconButton 
                 size='small' 
@@ -76,11 +86,15 @@ const [anchorE1, setAnchorE1]=useState(null);
                     </IconButton>
                     <Menu id='basic-menu' anchorEl={anchorE1} open={openMenu} onClick={handleClose} onClose={handleClose}>
                         <MenuItem className='Profile_info1'>
-                        <Avatar src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png' />
+                        {loggedInUser[0]?.profileImage?loggedInUser[0]?.profileImage:'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png'}
                 <div className='user_info subUser_info'>
                     <div>
-                    <h4>Shreyash Joshi</h4>
-                    <h5>@batmanshinchan</h5>
+                    <h4>
+                        {
+                            loggedInUser[0]?.name?loggedInUser[0]?.name: user && user[0]?.displayName
+                        }
+                    </h4>
+                    <h5>@{result}</h5>
                     </div>
                     <ListItemIcon className='done_icon'><DoneIcon/></ListItemIcon>
                 </div>
